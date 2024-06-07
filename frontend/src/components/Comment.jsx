@@ -97,7 +97,7 @@ const Comment = ({ comment,handleDelete }) => {
   const handleUpdate = async () => {
     if (editable) {
       try {
-        const res = await axios.patch(`http://localhost:8000/api/v1/comments/c/${comment._id}`, { content }, { withCredentials: true });
+        const res = await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/comments/c/${comment._id}`, { content }, { withCredentials: true });
         // console.log(res);
       } catch (error) {
         console.log("Error updating comment", error);

@@ -41,7 +41,7 @@ const VideoList = ({channel}) => {
     useEffect(() => {
         const fetchVideos = async () => {
          try {
-             const res = await axios.get(`http://localhost:8000/api/v1/dashboard/videos/${channel?.username}`,{withCredentials:true});
+             const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/dashboard/videos/${channel?.username}`,{withCredentials:true});
              console.log(res.data.data)
              setVideos(res.data.data);
              setRefresh(false)
@@ -56,7 +56,7 @@ const VideoList = ({channel}) => {
 //   useEffect(() => {
 //     const fetchVideos = async () => {
 //       try {
-//         const res = await axios.get(`http://localhost:8000/api/v1/videos/channel/${channel.username}`, { withCredentials: true });
+//         const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/channel/${channel.username}`, { withCredentials: true });
 //         setVideos(res.data.videos);
 //       } catch (error) {
 //         console.error("Error fetching videos", error);
@@ -70,7 +70,7 @@ const VideoList = ({channel}) => {
 
 const handleDelete = async (videoId) => {
     try {
-      await axios.delete(`http://localhost:8000/api/v1/videos/${videoId}`, { withCredentials: true });
+      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/${videoId}`, { withCredentials: true });
       console.log("Video deleted");
       setRefresh((prev) => !prev);
     } catch (error) {

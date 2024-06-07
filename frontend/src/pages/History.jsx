@@ -25,12 +25,12 @@ const Home = () => {
       try {
         // console.log(type)
         // if(type==='history'){
-          const result=await axios.get("http://localhost:8000/api/v1/users/history",{withCredentials:true})
+          const result=await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/history`,{withCredentials:true})
           // console.log("the frontendend fetched data is: ",result.data.data.watchHistory);
           setVideos(result.data.data.watchHistory)
           // setTotalPages(result.data.data.totalPages);
         // }else{
-        //   const result=await axios.get("http://localhost:8000/api/v1/videos?page=${page}")
+        //   const result=await axios.get("${process.env.REACT_APP_BACKEND_URL}/api/v1/videos?page=${page}")
         // // console.log("the frontendend fetched data is: ",result.data.data.docs);
         // setVideos(result.data.data.docs)
         // setTotalPages(result.data.data.totalPages);

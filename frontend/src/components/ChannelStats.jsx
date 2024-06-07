@@ -118,13 +118,13 @@ const ChannelStats = () => {
   useEffect(() => {
     const fetchChannel = async () => {
       try {
-        const res1 = await axios.get(`http://localhost:8000/api/v1/users/c/${path}`,{withCredentials:true});
+        const res1 = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/c/${path}`,{withCredentials:true});
         setChannel(res1.data.data);
         setNewFullName(res1.data.data.fullName);
         setEmail(res1.data.data.email);
         setNewAvatar(res1.data.data.avatar);
 
-        const res = await axios.get(`http://localhost:8000/api/v1/dashboard/stats/${path}`, { withCredentials: true });
+        const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/dashboard/stats/${path}`, { withCredentials: true });
         setChannelStats(res.data.data);
       } catch (error) {
         console.error("Error fetching channel data", error);
@@ -140,7 +140,7 @@ const ChannelStats = () => {
         try {
           const formData = new FormData();
           formData.append('avatar', avatarFile);
-          const res = await axios.patch(`http://localhost:8000/api/v1/users/update-avatar`, formData, { withCredentials: true });
+          const res = await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/update-avatar`, formData, { withCredentials: true });
           dispatch(refreshUser(res.data.data));
           setNewAvatar(res.data.data.avatar);
         } catch (error) {
@@ -155,7 +155,7 @@ const ChannelStats = () => {
   const handleUpdate = async () => {
     if (editable) {
       try {
-        await axios.patch(`http://localhost:8000/api/v1/users/update-account`, { email, fullName: newFullName }, { withCredentials: true });
+        await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/update-account`, { email, fullName: newFullName }, { withCredentials: true });
       } catch (error) {
         console.log("Error updating details", error);
       }

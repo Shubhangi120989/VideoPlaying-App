@@ -83,7 +83,7 @@ const Comments = () => {
 
       try {
         console.log(videotitle);
-        const commentRes = await axios.get(`http://localhost:8000/api/v1/comments/${videotitle}?page=${currentPage}`, { withCredentials: true });
+        const commentRes = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/comments/${videotitle}?page=${currentPage}`, { withCredentials: true });
         console.log(commentRes.data.data.docs);
         setComments(commentRes.data.data.docs)
         setTotalPages(commentRes.data.data.totalPages);
@@ -112,7 +112,7 @@ const Comments = () => {
   };
   const handleDelete = async (commentId) => {
     try {
-      await axios.delete(`http://localhost:8000/api/v1/comments/c/${commentId}`, { withCredentials: true });
+      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/v1/comments/c/${commentId}`, { withCredentials: true });
       console.log("Comment deleted");
       setRefresh((prev) => !prev);
     } catch (error) {
@@ -122,7 +122,7 @@ const Comments = () => {
   };
   const handleCommentAdd=async()=>{
     try {
-      const result=await axios.post(`http://localhost:8000/api/v1/comments/${videotitle}`,{content},{ withCredentials: true })
+      const result=await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/v1/comments/${videotitle}`,{content},{ withCredentials: true })
       console.log(result);
       if(result){
         setContent("")

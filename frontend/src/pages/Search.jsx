@@ -18,7 +18,7 @@ const Search = () => {
   useEffect(() => {
     const fetchVideos = async () => {
      try {
-         const res = await axios.get(`http://localhost:8000/api/v1/videos/search?search=${query}`);
+         const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/search?search=${query}`);
          console.log(res.data.data)
          setVideos(res.data.data);
      } catch (error) {

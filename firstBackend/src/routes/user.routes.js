@@ -22,7 +22,7 @@ router.route("/register").post(
 
 //how the url will be created, when /users call hota userRouter activate
 //hoga fir usme /register hoga call
-//http://localhost:8000/api/v1/users/register
+//${process.env.REACT_APP_BACKEND_URL}/api/v1/users/register
 
 
 router.route("/login").post(loginUser)

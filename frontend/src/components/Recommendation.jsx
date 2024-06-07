@@ -13,7 +13,7 @@ const Recommendation = ({username}) => {
   useEffect(() => {
     const fetchVideos = async () => {
      try {
-         const res = await axios.get(`http://localhost:8000/api/v1/dashboard/videos/${username}`,{withCredentials:true});
+         const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/dashboard/videos/${username}`,{withCredentials:true});
          console.log(res.data.data)
          setVideos(res.data.data);
      } catch (error) {

@@ -139,7 +139,7 @@ const AnotherCard = ({ video, handleDelete}) => {
                 formData.append("newTitle", title);
             }
             formData.append("description", description);
-            const res = await axios.patch(`http://localhost:8000/api/v1/videos/${title1}`, formData, { withCredentials: true });
+            const res = await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/${title1}`, formData, { withCredentials: true });
 
             setEditable(false);
             setTitle1(res.data.data.title.replace(/ /g, "-"));

@@ -90,7 +90,7 @@ const Upload = ({setOpen}) => {
     }
 
     try {
-      const res = await axios.post("http://localhost:8000/api/v1/videos/", formData, {
+      const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/`, formData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data',

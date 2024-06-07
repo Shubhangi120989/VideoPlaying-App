@@ -81,7 +81,7 @@ const SignIn = () => {
     e.preventDefault();
     dispatch(loginStart())
     try {
-      const result = await axios.post('http://localhost:8000/api/v1/users/login', { username, email, password }, { withCredentials: true });
+      const result = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/login`, { username, email, password }, { withCredentials: true });
       console.log(result.data.data.user);
       dispatch(loginSuccess(result.data.data.user))
       navigate("/"); // Redirect to home on successful login
@@ -140,7 +140,7 @@ const SignIn = () => {
     }
 
     try {
-      const result = await axios.post("http://localhost:8000/api/v1/users/register", formData, {
+      const result = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/register`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

@@ -34,7 +34,7 @@ function App() {
   useEffect(()=>{
     const fetchUser=async()=>{
       try {
-        const currentUser=await axios.get(`http://localhost:8000/api/v1/users/current-user`, { withCredentials: true } )
+        const currentUser=await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/current-user`, { withCredentials: true } )
         // console.log("the current user is: ",currentUser.data.data.fullName)
         if(currentUser){
           dispatch(loginSuccess(currentUser.data.data))

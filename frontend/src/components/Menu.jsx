@@ -95,7 +95,7 @@ const Menu = ({ darkMode, setDarkMode }) => {
   const dispatch=useDispatch()
   const signeOut=async()=>{
    try {
-     const result=await axios.post(`http://localhost:8000/api/v1/users/logout`,{},{ withCredentials: true })
+     const result=await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/logout`,{},{ withCredentials: true })
      console.log(result)
      dispatch(logout())
    } catch (error) {

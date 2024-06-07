@@ -37,7 +37,7 @@ const Subscriptions = () => {
     useEffect(()=>{
         const fetchSubscribed=async()=>{
            try {
-             const res=await axios.get(`http://localhost:8000/api/v1/subscriptions/subscribed-channels`,{withCredentials:true})
+             const res=await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/subscriptions/subscribed-channels`,{withCredentials:true})
              console.log(res.data.data);
              setChannels(res.data.data);
            } catch (error) {

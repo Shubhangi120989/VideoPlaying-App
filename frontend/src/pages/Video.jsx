@@ -136,13 +136,13 @@ const Video = () => {
     const fetchData = async () => {
       dispatch(fetchStart());
       try {
-        const videoRes = await axios.get(`http://localhost:8000/api/v1/videos/${path}`, { withCredentials: true });
+        const videoRes = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/${path}`, { withCredentials: true });
         console.log(videoRes.data.data);
         // setVideo(videoRes.data.data);
         dispatch(fetchSuccess(videoRes.data.data));
 
         const username = videoRes.data.data.owner.username; // Use the returned data directly
-        // const channelRes = await axios.get(`http://localhost:8000/api/v1/users/c/${username}`, { withCredentials: true });
+        // const channelRes = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/c/${username}`, { withCredentials: true });
         // setChannel(channelRes.data.data);
         // console.log("the channel data is ", channelRes.data.data);
         // setLiked(currentVideo?.isLiked);
@@ -161,7 +161,7 @@ const Video = () => {
       try {
         if (currentVideo) {
           const username = currentVideo.owner.username;
-          const channelRes = await axios.get(`http://localhost:8000/api/v1/users/c/${username}`, { withCredentials: true });
+          const channelRes = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/c/${username}`, { withCredentials: true });
           setChannel(channelRes.data.data);
           console.log("the channel data is ", channelRes.data.data);
           setLiked(currentVideo.isLiked);
@@ -181,7 +181,7 @@ const Video = () => {
       console.log("toggle like being called")
       console.log(currentVideo?._id)
       const result = await axios.post(
-        `http://localhost:8000/api/v1/likes/toggle/v/${currentVideo?._id}`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/v1/likes/toggle/v/${currentVideo?._id}`,
         {}, // Request body, if needed
         {
           withCredentials: true, // Include cookies
@@ -209,7 +209,7 @@ const Video = () => {
   const toggleSubscribe = async () => {
     try {
       // console.log("toggle subscribe being called");
-      const result = await axios.post(`http://localhost:8000/api/v1/subscriptions/c/${channel._id}`, {}, { withCredentials: true });
+      const result = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/v1/subscriptions/c/${channel._id}`, {}, { withCredentials: true });
       // console.log(result.data);
 
       // if (result.data.success) {
