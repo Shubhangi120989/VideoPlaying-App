@@ -235,8 +235,8 @@ const loginUser = asyncHandler(async (req, res) =>{
 
     const options = {
         httpOnly: true, // Makes the cookie inaccessible to JavaScript (prevents XSS)
-        secure: false, // Ensures cookie is sent only over HTTPS
-        sameSite: 'None', // Controls if the cookie should be sent with cross-site requests
+        secure: true, // Ensures cookie is sent only over HTTPS
+        sameSite: 'none', // Controls if the cookie should be sent with cross-site requests
         maxAge: 24 * 60 * 60 * 1000 // 1 day
     }
 

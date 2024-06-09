@@ -168,10 +168,10 @@ const publishAVideo = asyncHandler(async (req, res) => {
         throw new ApiError(400,"Problem while uploading on cloudinary")
     }
     const duration=await getVideoDuration(videoFile.public_id)
-
+    // console.log(videoFile)
     const video=await Video.create({
-        videoFile:videoFile.url,
-        thumbnail:thumbnail.url,
+        videoFile:videoFile.secure_url,
+        thumbnail:thumbnail.secure_url,
         owner: req.user?._id,
         title,
         description,
@@ -384,8 +384,8 @@ const updateVideo = asyncHandler(async (req, res) => {
     }
 
     video.thumbnail=thumbnail.url;
-    }
     
+}
     
     
 
