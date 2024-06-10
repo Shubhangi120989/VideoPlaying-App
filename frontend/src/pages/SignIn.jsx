@@ -87,7 +87,38 @@ const SignIn = () => {
       alert("Successfully logged in")
       navigate("/"); // Redirect to home on successful login
     } catch (error) {
-      setError(error.response?.data?.message || 'Login failed');
+      console.log(error);
+      let errorMessage = 'An error occurred';
+    
+      if (error.response) {
+        if (error.response.headers['content-type'].includes('text/html')) {
+          // Parse the HTML to extract the error message
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(error.response.data, 'text/html');
+          const pre = doc.querySelector('pre');
+          if (pre) {
+            errorMessage = pre.textContent.trim();
+    
+            // Extract the message before the first <br> tag
+            const match = errorMessage.match(/^Error: ([^<]+)/);
+            if (match) {
+              errorMessage = match[1].trim();
+            }
+          }
+        } else if (error.response.data && error.response.data.message) {
+          errorMessage = error.response.data.message;
+    
+          // Extract the message before the first <br> tag if present
+          const match = errorMessage.match(/^Error: ([^<]+)/);
+          if (match) {
+            errorMessage = match[1].trim();
+          }
+        }
+        const arr=errorMessage.split("at")
+    
+        console.log(arr[0]);
+        alert(arr[0]);
+      }
       dispatch(loginFailure())
     }
   };
@@ -149,23 +180,39 @@ const SignIn = () => {
       console.log(result);
       alert("User registered SuccessFully, sign in to continue")
     } catch (error) {
+      console.log(error);
       let errorMessage = 'An error occurred';
-    if (error.response) {
-      if (error.response.headers['content-type'].includes('text/html')) {
-        // Parse the HTML to extract the error message
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(error.response.data, 'text/html');
-        const pre = doc.querySelector('pre');
-        if (pre) {
-          errorMessage = pre.textContent.trim();
+    
+      if (error.response) {
+        if (error.response.headers['content-type'].includes('text/html')) {
+          // Parse the HTML to extract the error message
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(error.response.data, 'text/html');
+          const pre = doc.querySelector('pre');
+          if (pre) {
+            errorMessage = pre.textContent.trim();
+    
+            // Extract the message before the first <br> tag
+            const match = errorMessage.match(/^Error: ([^<]+)/);
+            if (match) {
+              errorMessage = match[1].trim();
+            }
+          }
+        } else if (error.response.data && error.response.data.message) {
+          errorMessage = error.response.data.message;
+    
+          // Extract the message before the first <br> tag if present
+          const match = errorMessage.match(/^Error: ([^<]+)/);
+          if (match) {
+            errorMessage = match[1].trim();
+          }
         }
-      } else if (error.response.data && error.response.data.message) {
-        errorMessage = error.response.data.message;
+        const arr=errorMessage.split("at")
+    
+        console.log(arr[0]);
+        alert(arr[0]);
       }
-      alert(errorMessage)
-    }
-    setError(errorMessage);
-   
+
     }
 
   };
