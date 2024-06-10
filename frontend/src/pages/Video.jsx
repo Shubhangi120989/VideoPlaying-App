@@ -155,7 +155,7 @@ const Video = () => {
     };
 
     fetchData();
-  }, [path]); // Dependencies include dispatch and path to ensure proper re-fetching
+  }, [path,liked]); // Dependencies include dispatch and path to ensure proper re-fetching
   useEffect(() => {
     const fetchChannelData = async () => {
       try {

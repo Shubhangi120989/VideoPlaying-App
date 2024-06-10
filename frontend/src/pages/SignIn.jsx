@@ -84,6 +84,7 @@ const SignIn = () => {
       const result = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/login`, { username, email, password }, { withCredentials: true });
       console.log(result.data.data.user);
       dispatch(loginSuccess(result.data.data.user))
+      alert("Successfully logged in")
       navigate("/"); // Redirect to home on successful login
     } catch (error) {
       setError(error.response?.data?.message || 'Login failed');
@@ -146,6 +147,7 @@ const SignIn = () => {
         }
       });
       console.log(result);
+      alert("User registered SuccessFully, sign in to continue")
     } catch (error) {
       let errorMessage = 'An error occurred';
     if (error.response) {
@@ -160,6 +162,7 @@ const SignIn = () => {
       } else if (error.response.data && error.response.data.message) {
         errorMessage = error.response.data.message;
       }
+      alert(errorMessage)
     }
     setError(errorMessage);
    
