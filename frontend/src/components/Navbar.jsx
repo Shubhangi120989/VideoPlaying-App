@@ -72,44 +72,57 @@ const Avatar = styled.img`
 `;
 
 const Navbar = () => {
-  const navigate = useNavigate()
-  const [open,setOpen]=useState(false)
-  const currentUser=useSelector((state)=>state.user.currentUser);
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const currentUser = useSelector((state) => state.user.currentUser);
   const [q, setQ] = useState("");
-  const meLink=`channel/${currentUser?.username}`
-  // console.log(currentUser)
+
+  const handleSearch = () => {
+    navigate(`/search/${q}`);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  const meLink = `channel/${currentUser?.username}`;
+
   return (
-      <>
-    <Container>
-      <Wrapper>
-        <Search>
-          <Input placeholder="Search" 
-           onChange={(e) => setQ(e.target.value)}/>
-          <SearchOutlinedIcon 
-          onClick={()=>navigate(`/search/${q}`)}
-          />
-        </Search>
-        {currentUser ? (
-  <Link to={meLink} style={{ textDecoration: "none" }}>
-    <User>
-      <VideoCallOutlinedIcon onClick={() => setOpen(true)} />
-      <Avatar src={currentUser.avatar} />
-      {currentUser.username}
-    </User>
-  </Link>
-) : (
-  <Link to="signin" style={{ textDecoration: "none" }}>
-    <Button>
-      <AccountCircleOutlinedIcon />
-      SIGN IN
-    </Button>
-  </Link>
-)}
-      </Wrapper>
-    </Container>
-    {open&&<Upload setOpen={setOpen}/>}
-          </>
+    <>
+      <Container>
+        <Wrapper>
+          <Search>
+            <Input
+              placeholder="Search"
+              onChange={(e) => setQ(e.target.value)}
+              onKeyPress={handleKeyPress}
+            />
+            <SearchOutlinedIcon onClick={handleSearch} />
+          </Search>
+          {currentUser ? (
+            <Link to={meLink} style={{ textDecoration: "none" }}>
+              <User>
+                <VideoCallOutlinedIcon onClick={() => setOpen(true)} />
+                <Avatar src={currentUser.avatar} />
+                {currentUser.username}
+              </User>
+            </Link>
+          ) : (
+            <Link to="signin" style={{ textDecoration: "none" }}>
+              <Button>
+                <AccountCircleOutlinedIcon />
+                SIGN IN
+              </Button>
+            </Link>
+          )}
+        </Wrapper>
+      </Container>
+      {open && <Upload setOpen={setOpen} />}
+    </>
   );
 };
+
 
 export default Navbar;

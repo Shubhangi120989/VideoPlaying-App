@@ -5,6 +5,7 @@ import { uploadOnCloudinary } from '../utils/cloudinary.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
 import jwt from "jsonwebtoken"
 import mongoose from 'mongoose';
+import validator from 'validator';
 
 const registerUser=asyncHandler(async(req,res)=>{
     //get user details from frontend
@@ -26,15 +27,39 @@ const registerUser=asyncHandler(async(req,res)=>{
     // console.log(password)
 
     //validation
-    if(fullName===""){
-        throw new ApiError(400,"Fullname is required")
+
+
+    
+    if (!fullName) {
+        throw new ApiError(400, "Fullname is required");
     }
 
+    if (!email) {
+        throw new ApiError(400, "Email is required");
+    }
+
+    if (!username) {
+        throw new ApiError(400, "Username is required");
+    }
+
+    if (!password) {
+        throw new ApiError(400, "Password is required");
+    }
     if(
         [fullName,email,username,password].some((field)=>field?.trim()==="")
     ){
         throw new ApiError(400, "All fields are required")
     }
+
+    // Additional validations
+    if (!validator.isEmail(email)) {
+        throw new ApiError(400, "Please provide a valid Email!");
+    }
+
+    if (password.length < 8 || password.length > 32) {
+        throw new ApiError(400, "Password must contain between 8 and 32 characters!");
+    }
+
 
     //check if user exists in db
     // import User from models

@@ -5,6 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useSelector } from "react-redux";
 import SaveIcon from '@mui/icons-material/Save'; // Import the Save icon
 import axios from "axios";
+import Alert from "./Alert";
 
 const Container = styled.div`
   display: flex;
@@ -83,6 +84,7 @@ const Comment = ({ comment,handleDelete }) => {
   const { currentUser } = useSelector((state) => state.user);
   const [editable, setEditable] = useState(false);
   const [content, setContent] = useState(comment.content);
+  const [showAlert,setShowAlert]=useState(false)
 
   const calculateDaysOld = (createdAt) => {
     const createdAtDate = new Date(createdAt);
@@ -108,11 +110,20 @@ const Comment = ({ comment,handleDelete }) => {
     }
   };
   const addDelete=()=>{
+    setShowAlert(true)
+  }
+  function handleCancelClick(){
+    setShowAlert(false)
+  }
+  function handleYesClick(){
     handleDelete(comment._id)
+    setShowAlert(false)
   }
 
   return (
     <Container>
+      {showAlert&&<Alert message="Are you sure you want to delete the Comment?" showCancelButton={true} showYesButton={true} handleCancelClick={handleCancelClick} handleYesClick={handleYesClick}/>}
+
       <Avatar src={comment.owner.avatar} />
       <Details>
         <Name>

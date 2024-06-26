@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
-import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutlined";
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import Comments from "../components/Comments";
 import Card from "../components/Card";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { fetchFailure, fetchStart, fetchSuccess } from "../redux/videoSlice";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import Recommendation from "../components/Recommendation";
+import Alert from "../components/Alert";
 const Container = styled.div`
   display: flex;
   gap: 24px;
@@ -119,8 +119,13 @@ const Video = () => {
   const [likes,setLikes]=useState(0);
   const[liked,setLiked]=useState(false)
   const[subscribed,setSubscribed]=useState(true)
-  
+  const navigate = useNavigate()
   // console.log("The path is ",path)
+  
+  function handleOkClick(){
+    console.log("I m in handlclick")
+    navigate("/signin");
+  }
   function formatDate(dateString) {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   
@@ -131,11 +136,25 @@ const Video = () => {
   
     return `${month} ${day}, ${year}`;
   }
-  
+  // useEffect(()=>{
+  //   return <Alert/>
+
+  // },[currentUser])
+  // useEffect(()=>{
+  //   console.log("i am here")
+  //   if(currentUser===null){
+  //     console.log("i am insidet the null condition")
+  //     // return <Alert showOKButton={true} showYesButton={false} showCancelButton={false} handleOkClick={handleOkClick}/>
+  //     return <div> log in to watch a video</div>
+  //   }
+
+  // })
   useEffect(() => {
+   
     const fetchData = async () => {
       dispatch(fetchStart());
       try {
+        
         const videoRes = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/videos/${path}`, { withCredentials: true });
         console.log(videoRes.data.data);
         // setVideo(videoRes.data.data);
@@ -234,6 +253,15 @@ const Video = () => {
       }
     }
   };
+  if (currentUser === null) {
+    return (
+      <Alert
+        message="Please Log In To Continue!!"
+        showOKButton={true}
+        handleOkClick={handleOkClick}
+      />
+    );
+  }
   return (
     <Container>
       <Content>

@@ -1,11 +1,12 @@
 import mongoose,{Schema} from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import validator from "validator";
 const userSchema=new Schema(
     {
         username:{
             type:String,
-            required:true,
+            required:[true, "Please enter your Username!"],
             unique:true,
             lowercase:true,
             trim:true,
@@ -13,20 +14,21 @@ const userSchema=new Schema(
         },
         email:{
             type:String,
-            required: true,
+            required:  [true, "Please enter your Email!"],
             unique:true,
             lowercase:true,
             trim:true,
+            validate: [validator.isEmail, "Please provide a valid Email!"],
         },
         fullName:{
             type:String,
-            required: true,
+            required:[true, "Please enter your Name!"],
             trim:true,
             index:true
         },
         avatar:{
             type:String,//cloudinary url
-            required: true,
+            required: [true,"Avatar is required"],
             
         },
         coverImage:{
@@ -41,7 +43,9 @@ const userSchema=new Schema(
         ],
         password:{
             type: String,
-            required:[true,'Password is required']
+            required: [true, "Please provide a Password!"],
+            minLength: [8, "Password must contain at least 8 characters!"],
+            maxLength: [32, "Password cannot exceed 32 characters!"],
         },
         refreshToken:{
             type:String

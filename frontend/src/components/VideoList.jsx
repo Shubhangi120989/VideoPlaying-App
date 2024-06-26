@@ -38,6 +38,7 @@ margin-bottom: 10px;  // Space below the heading to accommodate the underline
 const VideoList = ({channel}) => {
     const [videos, setVideos] = useState([]);
     const [refresh,setRefresh]=useState(false);
+    const [showAlert,setShowAlert]=useState(false)
     useEffect(() => {
         const fetchVideos = async () => {
          try {
@@ -83,10 +84,12 @@ const handleDelete = async (videoId) => {
 
 //   if (videos.length === 0) return <div>No videos available.</div>;
 
+
   return (
     <>
          
     <VideoContainer>
+     
     <Heading>Videos</Heading> 
 
       {videos.map(video => (

@@ -118,7 +118,7 @@ const getVideoBySearch=asyncHandler(async(req,res)=>{
             }
         }
     ])
-    const searchedVideos=videos.filter(video=>video.title.includes(req.query.search))
+    const searchedVideos=videos.filter(video=>video.title.toLowerCase().includes(req.query.search))
 
     // console.log(searchedVideos)
     return res

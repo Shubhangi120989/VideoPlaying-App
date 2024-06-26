@@ -118,10 +118,12 @@ const Menu = ({ darkMode, setDarkMode }) => {
           Home
         </Item>
         </Link>
+        {/* <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
         <Item>
           <ExploreOutlinedIcon />
           Explore
         </Item>
+        </Link> */}
         <Link to="subscriptions" lassName="noColorChange" style={{textDecoration:"none",color: 'inherit'}}>
         <Item active={location.pathname==='/subscriptions'}>
           <SubscriptionsOutlinedIcon />

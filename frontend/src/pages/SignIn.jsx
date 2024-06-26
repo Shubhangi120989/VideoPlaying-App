@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
 import { useNavigate } from "react-router-dom";
+import Alert from "../components/Alert";
 
 const Container = styled.div`
   display: flex;
@@ -75,8 +76,11 @@ const SignIn = () => {
   const [avatar, setAvatar] = useState(null);
   const [coverImage,setCoverImage]=useState(null)
   const [fullName,setFullName]=useState("")
+  const [registered,setRegistered]=useState(false)
+  const [registering,setRegistering]=useState(false)
   const dispatch=useDispatch()
   const navigate = useNavigate();
+ 
   const handleLogin = async (e) => {
     e.preventDefault();
     dispatch(loginStart())
@@ -84,7 +88,9 @@ const SignIn = () => {
       const result = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/v1/users/login`, { username, email, password }, { withCredentials: true });
       console.log(result.data.data.user);
       dispatch(loginSuccess(result.data.data.user))
-      alert("Successfully logged in")
+      // alert("Successfully logged in")
+      // setLogin(true)
+
       navigate("/"); // Redirect to home on successful login
     } catch (error) {
       console.log(error);
@@ -117,7 +123,8 @@ const SignIn = () => {
         const arr=errorMessage.split("at")
     
         console.log(arr[0]);
-        alert(arr[0]);
+        // alert(arr[0]);
+        setError(arr[0])
       }
       dispatch(loginFailure())
     }
@@ -158,6 +165,7 @@ const SignIn = () => {
   };
   const handleRegister = async (e) => {
     e.preventDefault();
+    setRegistering(true); 
 
     const formData = new FormData();
     formData.append('fullName', fullName);
@@ -178,9 +186,15 @@ const SignIn = () => {
         }
       });
       console.log(result);
-      alert("User registered SuccessFully, sign in to continue")
+      setRegistering(false);
+      // alert("User registered SuccessFully, sign in to continue")
+      setRegistered(true)
+      // setError("User Registered SuccessFully, Sign in to Continue")
+      
     } catch (error) {
+      console.log("the regsitering error is")
       console.log(error);
+      setRegistering(false);
       let errorMessage = 'An error occurred';
     
       if (error.response) {
@@ -210,18 +224,31 @@ const SignIn = () => {
         const arr=errorMessage.split("at")
     
         console.log(arr[0]);
-        alert(arr[0]);
+        setError(arr[0])
+
+        // alert(arr[0]);
       }
 
     }
 
   };
+  function handleOkClick(){
+    setError(null)
+  }
+  function handleOkRegsiterdClick(){
+    navigate("/")
+    setRegistered(false)
+  }
  
   
 
   return (
     <Container>
+       {/* {registered&&<Alert message="Logged in successfully" timeout={true}/>} */}
+      {registered&&<Alert message="User Registered Successfully, Login to Continue" showOKButton={true} handleOkClick={handleOkRegsiterdClick} />}
+      {error&&<Alert message={error} showOKButton={true} handleOkClick={handleOkClick} />}
       <Wrapper>
+        
         <Title>Sign in</Title>
         <SubTitle>to continue to YouTube</SubTitle>
         
@@ -249,7 +276,7 @@ const SignIn = () => {
           onChange={handleCoverImage}
         />
         <Input type="password" placeholder="password" onChange={(e)=>setPassword(e.target.value)} />
-        <Button onClick={handleRegister}>Sign up</Button>
+        <Button onClick={handleRegister}>{registering ? 'Registering...' : 'Sign up'}</Button>
       </Wrapper>
       <More>
         English(USA)

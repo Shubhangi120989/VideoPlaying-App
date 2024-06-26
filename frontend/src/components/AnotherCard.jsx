@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import SaveIcon from '@mui/icons-material/Save';
 import { useSelector } from 'react-redux';
+import Alert from './Alert';
 // import { IconButton as MuiIconButton, Typography } from '@mui/material';
 
 const CardWrapper = styled.div`
@@ -128,6 +129,7 @@ const AnotherCard = ({ video, handleDelete}) => {
     const [thumbnail,setThumbnail]=useState(video?.thumbnail)
     const [editable,setEditable]=useState(false)
     const [newThumbNail,setNewThumbnail]=useState(null)
+    const [showAlert,setShowAlert]=useState(false)
     const handleUpdate = async () => {
         if (editable) {
           try {
@@ -161,9 +163,19 @@ const AnotherCard = ({ video, handleDelete}) => {
           setEditable(true);
         }
     };
+    function handleCancelClick(){
+      setShowAlert(false)
+    
+    }
+    function handleYesClick(){
+      handleDelete(title1)
+      setShowAlert(false)
+      
+    }
     
   return (
       <CardWrapper>
+        {showAlert&&<Alert message="Are you sure you want to delete the video?" showCancelButton={true} showYesButton={true} handleCancelClick={handleCancelClick} handleYesClick={handleYesClick}></Alert>}
         {editable ? <ThumbnailWrapper>
         <input 
           type="file" 
@@ -204,7 +216,7 @@ const AnotherCard = ({ video, handleDelete}) => {
         <IconButton onClick={handleUpdate}>
          {!editable? <EditIcon />:<SaveIcon/>}
         </IconButton>
-        <IconButton onClick={() => handleDelete(title1)}>
+        <IconButton onClick={() =>{setShowAlert(true)}}>
           <DeleteIcon />
         </IconButton>
       </IconButtonContainer>}
